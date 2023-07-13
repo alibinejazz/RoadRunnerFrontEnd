@@ -1,5 +1,9 @@
 .background{
-    background-image: url(https://wallpaperset.com/w/full/b/f/f/154313.jpg);
     background-repeat: no-repeat;
-    background-size: cover;
+}
+
+.rentbutton{
+    border-radius: 10px;
+    background-color: black;
+    color: white;
 }
