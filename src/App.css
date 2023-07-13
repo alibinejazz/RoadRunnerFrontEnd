@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.list-group-itemheader{
+  display: flex;
+  justify-content: space-evenly;
+  font-weight: 1000;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 35px;
+}
+
+.list-group-itema{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
