@@ -27,14 +27,13 @@ const BookForm = () => {
       if (new Date(returnDate) < new Date(pickupDate)) {
         setTotalPrice(0);
       } else {
-
         fetch(`http://localhost:8080/cars/get/${id}`)
           .then((response) => response.json())
           .then((data) => {
             const pricePerDay = data.price;
             setRentPerDay(pricePerDay);
             const calculatedPrice = pricePerDay * daysCount;
-            console.log(calculatedPrice,'cal');
+            console.log(calculatedPrice, "cal");
             const damageprice = daysCount * 15000;
             setTotalPrice(calculatedPrice);
             setDamageWavier(damageprice);
@@ -46,45 +45,39 @@ const BookForm = () => {
             // Handle the error gracefully
           });
       }
+    } else {
+      console.log("idhar aya");
+      fetch(`http://localhost:8080/cars/get/${id}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setData(data);
+        });
 
-     
+      let retainedData = localStorage.getItem("myobj");
+      if (retainedData?.length > 0) {
+        console.log("idhar aya");
+        retainedData = JSON.parse(retainedData);
+        setName(retainedData?.name);
+        setCellNum(retainedData?.cellnumber);
+        setAddress(retainedData?.address);
+        setLicenseNumber(retainedData?.driverLicenseNumber);
+        setPickupDate(retainedData?.pickupDate);
+        setReturnDate(retainedData?.returnDate);
+      }
     }
-    else{
-        console.log('idhar aya')
-        fetch(`http://localhost:8080/cars/get/${id}`)
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setData(data);
-          });
-    
-        let retainedData = localStorage.getItem("myobj");
-        if(retainedData?.length>0){
-            console.log('idhar aya')
-            retainedData = JSON.parse(retainedData);
-            setName(retainedData?.name);
-            setCellNum(retainedData?.cellnumber);
-            setAddress(retainedData?.address);
-            setLicenseNumber(retainedData?.driverLicenseNumber);
-            setPickupDate(retainedData?.pickupDate);
-            setReturnDate(retainedData?.returnDate);
-        }
-
-
-    }
-
   }, [returnDate, pickupDate, id]);
 
   function handleSubmit(e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (new Date(returnDate) < new Date(pickupDate)) {
-        alert('Please select correct dates');
-        return;
-      }
+    if (new Date(returnDate) < new Date(pickupDate)) {
+      alert("Please select correct dates");
+      return;
+    }
 
-      if(!checked){
+    if (!checked) {
       const formData = {
         name: name,
         cellnumber: cellNum,
@@ -93,87 +86,84 @@ const BookForm = () => {
         returnDate: new Date(returnDate),
         driverLicenseNumber: licenseNumber,
         totalPrice: totalPrice,
-        carId: id
+        carId: id,
       };
 
-      fetch('http://localhost:8081/drivers/add', {
-        method: 'POST',
+      fetch("http://localhost:8081/drivers/add", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           // Handle the response or perform additional actions
-          console.log('Data posted:', data);
-
+          console.log("Data posted:", data);
         })
-        .catch(error => {
-          console.error('Error posting data:', error);
+        .catch((error) => {
+          console.error("Error posting data:", error);
           // Handle the error gracefully
         });
-      }else
-      {
-          const formData = {
-              name: name,
-              cellnumber: cellNum,
-              address: address,
-              pickupDate: new Date(pickupDate),
-              returnDate: new Date(returnDate),
-              driverLicenseNumber: licenseNumber,
-              totalPrice: totalPriceWithDamage,
-              carId: id,
-            };
+    } else {
+      const formData = {
+        name: name,
+        cellnumber: cellNum,
+        address: address,
+        pickupDate: new Date(pickupDate),
+        returnDate: new Date(returnDate),
+        driverLicenseNumber: licenseNumber,
+        totalPrice: totalPriceWithDamage,
+        carId: id,
+      };
 
-            fetch('http://localhost:8081/drivers/add', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(formData)
-            })
-              .then(response => response.json())
-              .then(data => {
-                // Handle the response or perform additional actions
-                console.log('Data posted:', data);
+      fetch("http://localhost:8081/drivers/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response or perform additional actions
+          console.log("Data posted:", data);
+        });
 
-              })
+      const formdata = {
+        name: name,
+        cellnumber: cellNum,
+        address: address,
+        pickupDate: new Date(pickupDate),
+        returnDate: new Date(returnDate),
+        driverLicenseNumber: licenseNumber,
+        carId: 6,
+        totalPrice: damageWavier,
+      };
 
-              const formdata = {
-                  name: name,
-                  cellnumber: cellNum,
-                  address: address,
-                  pickupDate: new Date(pickupDate),
-                  returnDate: new Date(returnDate),
-                  driverLicenseNumber: licenseNumber,
-                  carId: 6,
-                  totalPrice: damageWavier
-                };
-
-              fetch('http://localhost:8081/drivers/add', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formdata),
-              })
-                .then(response => response.json())
-                .then(data => {
-                  // Handle the response or perform additional actions
-                  console.log('Data posted:', data);
-
-                })
-              .catch(error => {
-                console.error('Error posting data:', error);
-                // Handle the error gracefully
-              });
-      }
-        nav('/thanks');
+      fetch("http://localhost:8081/drivers/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formdata),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response or perform additional actions
+          console.log("Data posted:", data);
+        })
+        .catch((error) => {
+          console.error("Error posting data:", error);
+          // Handle the error gracefully
+        });
     }
+    localStorage.clear();
+    nav("/thanks");
+  }
 
-  const handleChooseAnotherCar =(e) => {
-    e.preventDefault()
+  const handleChooseAnotherCar = (e) => {
+    e.preventDefault();
     const myobj = {
       name: name,
       cellnumber: cellNum,
@@ -186,7 +176,7 @@ const BookForm = () => {
     localStorage.setItem("myobj", JSON.stringify(myobj));
     console.log(myobj);
     nav("/");
-  }
+  };
 
   return (
     <div>
@@ -198,11 +188,12 @@ const BookForm = () => {
         }}
       >
         <h1 style={{ color: "white" }}>
-          <span style={{ color: "red" }}>Car Selected:</span> {data.name}
+          <span data-testid="carselected" style={{ color: "red" }}>Car Selected:</span> {data.name}
         </h1>
-        <img src={data.imagelink} alt="info" style={{width:"400px"}}/>
+        <img src={data.imagelink} alt="info" style={{ width: "400px" }} />
       </div>
       <form
+        data-testid="form-book"
         style={{
           width: "50%",
           display: "flex",
@@ -215,13 +206,12 @@ const BookForm = () => {
         }}
       >
         <div class="mb-3">
-        <div
+          <div
             style={{
-                display:"flex",
+              display: "flex",
               color: "white",
               fontSize: "40px",
-              fontWeight:"bold"
-
+              fontWeight: "bold",
             }}
           >
             Rental Form
@@ -402,8 +392,9 @@ const BookForm = () => {
             />
           </div>
         )}
-        <div style={{display:"flex", justifyContent:"space-evenly"}}>
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <button
+            data-testid="checkout"
             onClick={handleSubmit}
             class="btn btn-primary"
             style={{ backgroundColor: "darkblue", border: "2px solid black" }}
@@ -411,6 +402,7 @@ const BookForm = () => {
             Checkout
           </button>
           <button
+            data-testid="anothercar"
             class="btn btn-primary"
             style={{ backgroundColor: "darkblue", border: "2px solid black" }}
             onClick={handleChooseAnotherCar}
