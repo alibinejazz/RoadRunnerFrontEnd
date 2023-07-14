@@ -25,7 +25,7 @@ it("Filling details and clicking buttons in a Rental form",() => {
 
   it("Checking selected car", ()=> {
     render(<MemoryRouter><BookForm/></MemoryRouter>);
-    const button = screen.getByTestId("carselected");
-    expect(button).toBeInTheDocument();
+    const heading = screen.getByTestId("carselected");
+    expect(heading).toBeInTheDocument();
 
   })

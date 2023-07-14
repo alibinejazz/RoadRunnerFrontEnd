@@ -33,7 +33,6 @@ const BookForm = () => {
             const pricePerDay = data.price;
             setRentPerDay(pricePerDay);
             const calculatedPrice = pricePerDay * daysCount;
-            console.log(calculatedPrice, "cal");
             const damageprice = daysCount * 15000;
             setTotalPrice(calculatedPrice);
             setDamageWavier(damageprice);
@@ -42,11 +41,9 @@ const BookForm = () => {
           })
           .catch((error) => {
             console.error("Error fetching price:", error);
-            // Handle the error gracefully
-          });
+                  });
       }
     } else {
-      console.log("idhar aya");
       fetch(`http://localhost:8080/cars/get/${id}`)
         .then((response) => {
           return response.json();
@@ -57,7 +54,6 @@ const BookForm = () => {
 
       let retainedData = localStorage.getItem("myobj");
       if (retainedData?.length > 0) {
-        console.log("idhar aya");
         retainedData = JSON.parse(retainedData);
         setName(retainedData?.name);
         setCellNum(retainedData?.cellnumber);
@@ -98,12 +94,9 @@ const BookForm = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle the response or perform additional actions
-          console.log("Data posted:", data);
         })
         .catch((error) => {
           console.error("Error posting data:", error);
-          // Handle the error gracefully
         });
     } else {
       const formData = {
@@ -126,8 +119,6 @@ const BookForm = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle the response or perform additional actions
-          console.log("Data posted:", data);
         });
 
       const formdata = {
@@ -150,12 +141,9 @@ const BookForm = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle the response or perform additional actions
-          console.log("Data posted:", data);
         })
         .catch((error) => {
           console.error("Error posting data:", error);
-          // Handle the error gracefully
         });
     }
     localStorage.clear();
@@ -174,7 +162,6 @@ const BookForm = () => {
     };
 
     localStorage.setItem("myobj", JSON.stringify(myobj));
-    console.log(myobj);
     nav("/");
   };
 

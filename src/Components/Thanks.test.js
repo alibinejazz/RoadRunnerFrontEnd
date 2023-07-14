@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Thanks from './Thanks';
-import { type } from '@testing-library/user-event/dist/type';
 
 describe("thankyou page", () => {
 

@@ -16,7 +16,6 @@ const DetailPage = () => {
       const data = await response.json();
       setItem(data);
     } catch (error) {
-      console.log("Error fetching hotel data:", error);
     }
   };
 
